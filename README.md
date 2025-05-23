@@ -95,12 +95,15 @@ Matheus Quost
 
 Gabriela Maciel Lopes de Amorim: 
 - Email: [gabimaciellopesamorim@gmail.com](gabimaciellopesamorim@gmail.com)
-- GitHub: [https://github.com/gabrielamamorim](https://github.com/gabrielamamorim)
+- GitHub: [gabrielamamorim](https://github.com/gabrielamamorim)
 - LinkedIn: [https://www.linkedin.com/in/gabriela-maciel-lopes-de-amorim-8b1522258/](https://www.linkedin.com/in/gabriela-maciel-lopes-de-amorim-8b1522258/)
 
 Julia Gabrieli Garcia da Silva:
 - Email: [juliagabrieligarc@gmail.com](juliagabrieligarc@gmail.com)
-- GitHub: [https://github.com/julia-gg-silva](https://github.com/julia-gg-silva)
+- GitHub: [julia-gg-silva](https://github.com/julia-gg-silva)
 - LinkedIn: [https://www.linkedin.com/in/julia-garcia-54276a30a/](https://www.linkedin.com/in/julia-garcia-54276a30a/)
 
-Raquel da Silva: [silva.raquel2903@gmail.com](silva.raquel2903@gmail.com)
+Raquel da Silva:
+- Email: [silva.raquel2903@gmail.com](silva.raquel2903@gmail.com)
+- GitHub: [raquel1s](https://github.com/raquel1s)
+- LinkedIn: [https://www.linkedin.com/in/raquel-silva-52b4aa353/](https://www.linkedin.com/in/raquel-silva-52b4aa353/)
