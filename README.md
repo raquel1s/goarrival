@@ -48,7 +48,7 @@ Siga os passos abaixo para fazer a instalação correta:
 
   1. #### Clone o repositório:
    - Clonando diretamente do VS code:
-   - Clique Ctrl + Shift + P no teclado, vai abrir a paleta de comandos
+   - Clique Ctrl + Shift + ' no teclado, vai abrir a paleta de comandos
    - Digite: git clone https://github.com/raquel1s/goarrival.git
    - Rode o projeto: flutter run
  
