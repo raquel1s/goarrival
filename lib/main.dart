@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goarrival/screens/cadastrar_viagem.dart';
 import 'package:goarrival/screens/home_screen.dart';
 
 void main() {
@@ -33,7 +34,7 @@ class goArrival extends StatelessWidget {
           ),
         ),
       ),
-      home: const HomeScreen(),
+      home: const CadastrarViagem(),
     );
   }
 }
