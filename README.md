@@ -30,9 +30,9 @@ Aplicativo em flutter voltado para viajantes registrarem suas experiências com 
 
 ### 🚀 Tecnologias e Ferramentas
 
-- Flutter - 
-- Dart - 
-- Figma - 
+- Flutter: Framework do Google para criar apps nativos multiplataforma (iOS, Android, web) com uma única base de código, usando a linguagem Dart.
+- Dart: Linguagem de programação criada pelo Google, usada principalmente para desenvolver apps com Flutter. É fácil de aprender e otimizada para UI.
+- Figma: Ferramenta online de design colaborativo para criar interfaces, protótipos e wireframes de forma rápida e em equipe.
 
 --- 
 
