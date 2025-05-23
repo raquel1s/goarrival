@@ -65,8 +65,11 @@ Siga os passos abaixo para fazer a instalação correta:
 ### 🎓 Projeto
 
 Aplicativo desenvolvido como projeto final da UC **Programação de Aplicativos Mobile**
+
 **Curso:** Aprendizagem em Desenvolvimento de Sistemas
+
 **Instituição:** SENAI Jaraguá do Sul - CentroWEG
+
 **Ano:** 2025
 
 ### 👨‍🏫 Professor
