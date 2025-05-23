@@ -30,18 +30,19 @@ Aplicativo em flutter voltado para viajantes registrarem suas experiências com 
 
 ### 🚀 Tecnologias e Ferramentas
 
-- Flutter 3.x
-- Dart
-- Figma
+- Flutter - 
+- Dart - 
+- Figma - 
 
 --- 
 
 ### ✨ Funcionalidades
 
-- Uso do GPS para marcar localizações das viagens  
+- Uso da API flutter_map para marcar localizações das viagens  
 - Upload e exibição de fotos associadas a cada viagem  
 - Tela com mapa para visualização dos pontos visitados  
-- Segurança com armazenamento seguro local usando flutter_secure_storage  
+- Segurança com armazenamento seguro local usando firebase
+- Login diretamente com a conta do google
 - Navegação fluida entre múltiplas telas
 
 ---
