@@ -17,7 +17,7 @@ Aplicativo em flutter voltado para viajantes registrarem suas experiências com 
 - Dart
 - Figma
 
-### Como executar o projeto?
+### 📂 Como executar o projeto?
 
 Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local.
 
