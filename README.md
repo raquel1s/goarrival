@@ -1,20 +1,15 @@
 # Atividade Final - Projeto Mobile em Flutter
-
 ## GoArrival - Diário de Bordo de Viagens 
-
 Aplicativo em flutter voltado para viajantes registrarem suas experiências com fotos, localização via GPS, descrições e datas personalizadas. Um diário pessoal para guardar memórias de viagens e locais visitados.
 
----
 
 ## Equipe
-
 - Gabriela Maciel Lopes de Amorim
-
+  
 - Julia Gabrieli Garcia da Silva
-
+  
 - Raquel da Silva
 
----
 
 ### 🚀 Tecnologias e Ferramentas
 
