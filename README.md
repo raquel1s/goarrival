@@ -5,12 +5,9 @@
 Aplicativo em flutter voltado para viajantes registrarem suas experiências com fotos, localização via GPS, descrições e datas personalizadas. Um diário pessoal para guardar memórias de viagens e locais visitados.
 
 
-## Equipe
-
+👥 **Equipe**
 - Gabriela Maciel Lopes de Amorim
-  
 - Julia Gabrieli Garcia da Silva
-  
 - Raquel da Silva
 
 ---
