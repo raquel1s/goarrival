@@ -74,3 +74,9 @@ Aplicativo desenvolvido como projeto final da UC **Programação de Aplicativos 
 
 ### 👨‍🏫 Professor
 Matheus Quost
+
+### Contatos
+
+- Gabriela Maciel Lopes de Amorim: [Email](gabimaciellopesamorim@gmail.com)
+- Julia Gabrieli Garcia da Silva: 
+- Raquel da Silva
