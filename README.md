@@ -78,5 +78,5 @@ Matheus Quost
 ### Contatos
 
 - Gabriela Maciel Lopes de Amorim: [gabimaciellopesamorim@gmail.com](gabimaciellopesamorim@gmail.com)
-- Julia Gabrieli Garcia da Silva: 
+- Julia Gabrieli Garcia da Silva: [juliagabrieligarc@gmail.com](juliagabrieligarc@gmail.com)
 - Raquel da Silva
