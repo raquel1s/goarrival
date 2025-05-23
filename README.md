@@ -19,6 +19,14 @@ Aplicativo em flutter voltado para viajantes registrarem suas experiências com 
 
 --- 
 
+### ✨ Funcionalidades
+
+- Uso do GPS para marcar localizações das viagens  
+- Upload e exibição de fotos associadas a cada viagem  
+- Tela com mapa para visualização dos pontos visitados  
+- Segurança com armazenamento seguro local usando flutter_secure_storage  
+- Navegação fluida entre múltiplas telas
+
 ### 📂 Como executar o projeto?
 
 Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local.
