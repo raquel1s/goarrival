@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goarrival/screens/home_screen.dart';
+import 'package:goarrival/screens/login.dart';
 
 void main() {
   runApp(const goArrival());
@@ -33,7 +34,7 @@ class goArrival extends StatelessWidget {
           ),
         ),
       ),
-      home: const HomeScreen(),
+      home: const Login(),
     );
   }
 }
