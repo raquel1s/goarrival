@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:goarrival/screens/home_screen.dart';
+import 'package:goarrival/screens/cadastrar_viagem.dart';
 import 'package:goarrival/screens/login.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const goArrival());
 }
 
@@ -34,7 +41,7 @@ class goArrival extends StatelessWidget {
           ),
         ),
       ),
-      home: const Login(),
+      home: const CadastrarViagem(),
     );
   }
 }

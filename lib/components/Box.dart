@@ -10,14 +10,12 @@ class Box extends StatelessWidget {
     final Size screenSize = MediaQuery.of(context).size;
 
     // Proporções — ajuste como quiser
-    final double boxWidth = screenSize.width * 0.9;   // 90% da largura
-    final double boxHeight = screenSize.height * 0.7; // 50% da altura
+    final double boxWidth = screenSize.width * 0.9;   // 90% da largura // 50% da altura
 
     return Center(
       child: Container(
         width: boxWidth,
-        height: boxHeight,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(30),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
