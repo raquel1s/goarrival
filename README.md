@@ -64,7 +64,7 @@ Siga os passos abaixo para fazer a instalação correta:
 
   1. #### Clone o repositório:
    - Clonando diretamente do VS code:
-   - Clique Ctrl + Shift + ' no teclado, vai abrir a paleta de comandos
+   - Pressione Ctrl + Shift + ' no teclado, vai abrir a paleta de comandos
    - Navegue até onde quer salvar o projeto, por exemplo:
      ```bash
      cd C:\Users\seu_usuario\Documents\GitHub
