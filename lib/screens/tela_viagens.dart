@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
 import 'package:goarrival/screens/cadastrar_viagem.dart';
 import 'package:goarrival/screens/usuario.dart';
+import 'package:goarrival/screens/viagem_detalhes.dart';
 
 class TelaViagens extends StatefulWidget {
   final ControleViagens controleViagens;
@@ -27,6 +28,12 @@ class _TelaViagensState extends State<TelaViagens> {
   @override
   Widget build(BuildContext context) {
     final viagens = widget.controleViagens.viagens;
+
+    viagens.sort((a, b) {
+      DateTime dataA = DateTime.parse(a.dataFim);
+      DateTime dataB = DateTime.parse(b.dataFim);
+      return dataB.compareTo(dataA);
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -107,7 +114,8 @@ class _TelaViagensState extends State<TelaViagens> {
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     elevation: 4,
                     child: ListTile(
-                      leading: imagem != null
+                      leading:
+                          imagem != null
                               ? Image.memory(
                                 imagem,
                                 width: 50,
@@ -141,6 +149,15 @@ class _TelaViagensState extends State<TelaViagens> {
                           setState(() {});
                         },
                       ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => ViagemDetalhes(viagem: viagem),
+                          ),
+                        );
+                      },
                     ),
                   );
                 },

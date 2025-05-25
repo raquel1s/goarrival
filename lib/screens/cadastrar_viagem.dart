@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:goarrival/components/Box.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
@@ -79,7 +77,10 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
             padding: const EdgeInsets.only(right: 16.0),
             child: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Usuario()),
+                );
               },
               icon: const Icon(Icons.account_circle),
             ),
@@ -253,17 +254,6 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
         ),
       ),
     );
-  }
-
-  void _limparFormulario() {
-    setState(() {
-      dataInicio = null;
-      dataFim = null;
-      fotos.clear();
-      local = '';
-      descricao = '';
-    });
-    _formKey.currentState?.reset();
   }
 
   Widget _buildTextField(
