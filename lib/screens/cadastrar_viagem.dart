@@ -1,12 +1,18 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:goarrival/components/Box.dart';
+import 'package:goarrival/controller/viagem_controller.dart';
+import 'package:goarrival/models/viagem.dart';
+import 'package:goarrival/screens/tela_viagens.dart';
 import 'package:goarrival/screens/usuario.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CadastrarViagem extends StatefulWidget {
-  const CadastrarViagem({super.key});
+  final ControleViagens controleViagens;
+
+  const CadastrarViagem({super.key, required this.controleViagens});
 
   @override
   State<CadastrarViagem> createState() => _CadastrarViagemState();
@@ -19,7 +25,7 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
   String descricao = '';
   DateTime? dataInicio;
   DateTime? dataFim;
-  List<Uint8List> fotos = [];
+  List<String> fotos = [];
 
   final ImagePicker _picker = ImagePicker();
 
@@ -55,8 +61,9 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
     final XFile? imagem = await _picker.pickImage(source: ImageSource.gallery);
     if (imagem != null) {
       final bytes = await imagem.readAsBytes();
+      final base64String = base64Encode(bytes);
       setState(() {
-        fotos.add(bytes);
+        fotos.add(base64String);
       });
     }
   }
@@ -65,16 +72,14 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('GOARRIVAL'),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Usuario()),
-                );
+                Navigator.pop(context);
               },
               icon: const Icon(Icons.account_circle),
             ),
@@ -90,7 +95,17 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => TelaViagens(
+                                controleViagens: ControleViagens(),
+                              ),
+                        ),
+                      );
+                    },
                     icon: const Icon(
                       Icons.chevron_left,
                       color: Color(0xFF12455C),
@@ -154,14 +169,20 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                                       color: Colors.grey,
                                     ),
                                   )
-                                  : ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: fotos.length,
-                                    itemBuilder:
-                                        (context, index) => Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Image.memory(fotos[index]),
+                                  : GridView.builder(
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3,
+                                          crossAxisSpacing: 4,
+                                          mainAxisSpacing: 4,
                                         ),
+                                    itemCount: fotos.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return Image.memory(
+                                        base64Decode(fotos[index]),
+                                      );
+                                    },
                                   ),
                         ),
                       ),
@@ -181,15 +202,25 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                                 vertical: 16,
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formKey.currentState!.validate() &&
                                   _validarDatas() == null) {
                                 _formKey.currentState!.save();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Viagem cadastrada!'),
-                                  ),
+                                final novaViagem = Viagem(
+                                  local: local,
+                                  descricao: descricao,
+                                  dataInicio: dataInicio.toString(),
+                                  dataFim: dataFim.toString(),
+                                  fotos: fotos,
                                 );
+
+                                await widget.controleViagens.adicionarViagem(
+                                  novaViagem,
+                                );
+                                Navigator.pop(
+                                  context,
+                                  true,
+                                ); // <== retorna true para indicar que cadastrou
                               } else {
                                 final erroDatas = _validarDatas();
                                 if (erroDatas != null) {
@@ -222,6 +253,17 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
         ),
       ),
     );
+  }
+
+  void _limparFormulario() {
+    setState(() {
+      dataInicio = null;
+      dataFim = null;
+      fotos.clear();
+      local = '';
+      descricao = '';
+    });
+    _formKey.currentState?.reset();
   }
 
   Widget _buildTextField(

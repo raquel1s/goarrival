@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:goarrival/screens/cadastrar_viagem.dart';
-import 'package:goarrival/screens/login.dart';
+import 'package:goarrival/controller/viagem_controller.dart';
+import 'package:goarrival/screens/tela_viagens.dart';
 
 void main() {
   runApp(const GoArrival());
@@ -34,7 +34,7 @@ class GoArrival extends StatelessWidget {
           ),
         ),
       ),
-      home: const CadastrarViagem(),
+      home: TelaViagens(controleViagens: ControleViagens(),),
     );
   }
 }
