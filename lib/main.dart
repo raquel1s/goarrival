@@ -10,11 +10,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const goArrival());
+  runApp(const GoArrival());
 }
 
-class goArrival extends StatelessWidget {
-  const goArrival({super.key});
+class GoArrival extends StatelessWidget {
+  const GoArrival({super.key});
 
   @override
   Widget build(BuildContext context) {
