@@ -78,9 +78,10 @@ Siga os passos abaixo para fazer a instalação correta:
    - No terminal, para instalar as dependências do projeto, rode:
      ```bash
      flutter pub get
-   - Por fim, rode o projeto:
+   - Rode o projeto:
      ```bash
      flutter run
+   - Por fim, escolha um navegador e visualize nosso projeto!
  
 ---
 
