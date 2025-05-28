@@ -23,18 +23,41 @@ class _LoginState extends State<Login> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Image(
-                image: AssetImage('assets/logo.png')
-                ),
+              const Image(image: AssetImage('assets/logo.png')),
               SizedBox(height: 30),
               Text(
                 "Bem-vindo",
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 38, color: Color(0xFF12455C)),
+                style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 38,
+                  color: Color(0xFF12455C),
+                ),
               ),
               Text(
                 "Viajante",
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 38, color: Color(0xFF2C6B85)),
-              )
+                style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 38,
+                  color: Color(0xFF2C6B85),
+                ),
+              ),
+              SizedBox(height: 30),
+              ElevatedButton.icon(
+                onPressed: () {
+                  // Funçao login google/ vou por ainda
+                },
+                label: Text(
+                  'Entrar com Google',
+                  style: TextStyle(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  backgroundColor: Color(0xFF12455C),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
