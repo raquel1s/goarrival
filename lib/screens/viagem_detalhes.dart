@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:goarrival/components/Box.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
 import 'package:goarrival/models/viagem.dart';
 import 'package:goarrival/screens/tela_viagens.dart';
 import 'package:goarrival/screens/usuario.dart';
+import 'package:goarrival/services/geocoding_service.dart';
+import 'package:latlong2/latlong.dart';
 
 class ViagemDetalhes extends StatefulWidget {
   final Viagem viagem;
@@ -20,11 +23,31 @@ class ViagemDetalhes extends StatefulWidget {
 class _ViagemDetalhesState extends State<ViagemDetalhes> {
   int _paginaAtual = 0;
   late final PageController _pageController;
+  final MapController _mapController = MapController();
+  LatLng? _coordenadas;
+  bool _carregandoMapa = true;
+
+  void _carregarCoordenadas() async {
+    final coordenadas = await GeocodingService.getCoordinates(
+      widget.viagem.local,
+    );
+    print('Coordenadas retornadas: $coordenadas');
+    if (mounted) {
+      setState(() {
+        _coordenadas = coordenadas;
+        _carregandoMapa = false;
+      });
+      if (_coordenadas != null) {
+        _mapController.move(_coordenadas!, 13.0);
+      }
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+    _carregarCoordenadas();
   }
 
   @override
@@ -74,9 +97,10 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TelaViagens(
-                            controleViagens: ControleViagens(),
-                          ),
+                          builder:
+                              (context) => TelaViagens(
+                                controleViagens: ControleViagens(),
+                              ),
                         ),
                       );
                     },
@@ -141,9 +165,13 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
                                 });
                               },
                               itemBuilder: (context, index) {
-                                Uint8List imagemBytes = base64Decode(viagem.fotos[index]);
+                                Uint8List imagemBytes = base64Decode(
+                                  viagem.fotos[index],
+                                );
                                 return Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0,
+                                  ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(8),
                                     child: Image.memory(
@@ -163,14 +191,17 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
                               viagem.fotos.length,
                               (index) => AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
-                                margin: const EdgeInsets.symmetric(horizontal: 4),
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 4,
+                                ),
                                 width: _paginaAtual == index ? 12 : 8,
                                 height: _paginaAtual == index ? 12 : 8,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: _paginaAtual == index
-                                      ? Colors.blueGrey
-                                      : Colors.blueGrey.withOpacity(0.4),
+                                  color:
+                                      _paginaAtual == index
+                                          ? Colors.blueGrey
+                                          : Colors.blueGrey.withOpacity(0.4),
                                 ),
                               ),
                             ),
@@ -182,9 +213,62 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
                         height: 200,
                         color: Colors.grey[300],
                         child: const Center(
-                          child: Icon(Icons.image, size: 50, color: Colors.grey),
+                          child: Icon(
+                            Icons.image,
+                            size: 50,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Localização no mapa:',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    _carregandoMapa
+                        ? const Center(child: CircularProgressIndicator())
+                        : _coordenadas == null
+                        ? const Text('Não foi possível obter a localização.')
+                        : SizedBox(
+                          height: 200,
+                          child: FlutterMap(
+                            mapController: _mapController,
+                            options: MapOptions(
+                              initialCenter: _coordenadas!,
+                              initialZoom: 13.0,
+                              interactionOptions: const InteractionOptions(
+                                flags: InteractiveFlag.all,
+                              ),
+                            ),
+                            children: [
+                              TileLayer(
+                                urlTemplate:
+                                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                subdomains: const ['a', 'b', 'c'],
+                                userAgentPackageName: 'com.example.goarrival',
+                              ),
+                              MarkerLayer(
+                                markers: [
+                                  Marker(
+                                    width: 40,
+                                    height: 40,
+                                    point: _coordenadas!,
+                                    child: const Icon(
+                                      Icons.location_on,
+                                      size: 40,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                   ],
                 ),
               ),
