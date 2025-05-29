@@ -59,7 +59,18 @@ class _TelaViagensState extends State<TelaViagens> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Guarde suas melhores memórias no GOARRIVAL"),
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Center(
+                child: const Text("Guarde suas melhores memórias no GOARRIVAL",
+                textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF12455C),
+                    fontSize: 20
+                  ),
+                ),
+              ),
+            ),
             SizedBox(height: 20),
             GestureDetector(
               onTap: () async {
@@ -80,19 +91,30 @@ class _TelaViagensState extends State<TelaViagens> {
               },
               child: Row(
                 children: [
-                  const Text("CADASTRAR VIAGEM"),
-                  Icon(
-                    Icons.add_circle_outline,
-                    color: Color(0xFF12455C),
-                    size: 30,
+                  const Text("CADASTRAR VIAGEM",
+                    style: TextStyle(
+                      color: Color(0xFF12455C),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Icon(
+                      Icons.add_circle_outline,
+                      color: Color(0xFF12455C),
+                      size: 30,
+                    ),
                   ),
                 ],
               ),
             ),
+            SizedBox(height: 45),
             const Text(
               'ÚLTIMAS VIAGENS',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF12455C),
               ),
