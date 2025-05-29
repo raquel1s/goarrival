@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -46,9 +47,14 @@ class _LoginState extends State<Login> {
                 onPressed: () {
                   // Funçao login google/ vou por ainda
                 },
+                icon: FaIcon(
+                  FontAwesomeIcons.google,
+                  color: Colors.white,
+                  size: 24,
+                ),
                 label: Text(
                   'Entrar com Google',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
