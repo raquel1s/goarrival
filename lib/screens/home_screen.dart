@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget {
               );
             },
             child: Text(
-              "Entrar",
+              "Embarcar",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 17,

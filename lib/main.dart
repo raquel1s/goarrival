@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:goarrival/controller/viagem_controller.dart';
 import 'package:goarrival/screens/home_screen.dart';
+import 'package:goarrival/screens/tela_viagens.dart';
 
 void main() {
   runApp(const GoArrival());
@@ -33,7 +35,7 @@ class GoArrival extends StatelessWidget {
           ),
         ),
       ),
-      home: HomeScreen(),
+      home: TelaViagens(controleViagens: ControleViagens(),),
     );
   }
 }

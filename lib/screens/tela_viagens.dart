@@ -62,12 +62,10 @@ class _TelaViagensState extends State<TelaViagens> {
             Padding(
               padding: const EdgeInsets.all(30.0),
               child: Center(
-                child: const Text("Guarde suas melhores memórias no GOARRIVAL",
-                textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFF12455C),
-                    fontSize: 20
-                  ),
+                child: const Text(
+                  "Guarde suas melhores memórias no GOARRIVAL",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Color(0xFF12455C), fontSize: 20),
                 ),
               ),
             ),
@@ -91,14 +89,15 @@ class _TelaViagensState extends State<TelaViagens> {
               },
               child: Row(
                 children: [
-                  const Text("CADASTRAR VIAGEM",
+                  const Text(
+                    "CADASTRAR VIAGEM",
                     style: TextStyle(
                       color: Color(0xFF12455C),
                       fontSize: 18,
-                      fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  
+
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Icon(
@@ -165,7 +164,7 @@ class _TelaViagensState extends State<TelaViagens> {
                         style: const TextStyle(color: Color(0xFF12455C)),
                       ),
                       trailing: IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
+                        icon: const Icon(Icons.delete, color: Color(0xFF12455C)),
                         onPressed: () async {
                           await widget.controleViagens.removerViagem(index);
                           setState(() {});
