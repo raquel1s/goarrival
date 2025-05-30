@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:goarrival/components/titulo_com_voltar.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:goarrival/components/titulo_com_voltar.dart';
 
 class Usuario extends StatefulWidget {
   const Usuario({super.key});
@@ -13,23 +11,39 @@ class Usuario extends StatefulWidget {
 }
 
 class _UsuarioState extends State<Usuario> {
-  List<String> fotos = [];
-  final ImagePicker _picker = ImagePicker();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Future<void> _adicionarFoto() async {
-    final XFile? imagem = await _picker.pickImage(source: ImageSource.gallery);
-    if (imagem != null) {
-      final bytes = await imagem.readAsBytes();
-      final base64String = base64Encode(bytes);
-      setState(() {
-        fotos.add(base64String);
-      });
+  Future<void> _logout() async {
+    try {
+      if (await _googleSignIn.isSignedIn()) {
+        await _googleSignIn.disconnect();
+      }
+
+      await _auth.signOut();
+
+      if (!mounted) return;
+      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao sair: $e')),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    User? user = FirebaseAuth.instance.currentUser;
+    final user = _auth.currentUser;
+
+    if (user == null) {
+      Future.microtask(() {
+        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+      });
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -37,69 +51,52 @@ class _UsuarioState extends State<Usuario> {
         title: const Text('GOARRIVAL'),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TituloComVoltar(titulo: 'PERFIL'),
-              const SizedBox(height: 20),
-
-              Center(
-                child: Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    Container(
-                      width: 135,
-                      height: 140,
-                      decoration: BoxDecoration(shape: BoxShape.circle),
-                      child: ClipOval(
-                        child:
-                            user?.photoURL != null
-                                ? Image.network(
-                                  user!.photoURL!,
-                                  fit: BoxFit.cover,
-                                  width: 150,
-                                  height: 150,
-                                )
-                                : const Icon(
-                                  Icons.account_circle,
-                                  size: 150,
-                                  color: Colors.grey,
-                                ),
-                      ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TituloComVoltar(titulo: 'PERFIL'),
+            const SizedBox(height: 20),
+            Center(
+              child: Container(
+                width: 135,
+                height: 135,
+                decoration: const BoxDecoration(shape: BoxShape.circle),
+                child: ClipOval(
+                  child: Image.network(
+                    user.photoURL ?? '',
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => const Icon(
+                      Icons.account_circle,
+                      size: 135,
+                      color: Colors.grey,
                     ),
-                    GestureDetector(
-                      onTap: _adicionarFoto,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.blueGrey,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(6),
-                          child: Icon(Icons.add, size: 24, color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              Center(
-                child: Text(
-                  user?.displayName ?? 'NOME_USUARIO',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF12455C),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              user.displayName ?? 'Nome do usuário',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF12455C),
+              ),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton.icon(
+              onPressed: _logout,
+              icon: const Icon(Icons.logout, color: Colors.white,),
+              label: const Text('Logout', style: TextStyle(color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF12455C),
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
