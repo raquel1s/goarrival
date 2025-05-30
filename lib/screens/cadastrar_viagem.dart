@@ -25,6 +25,9 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
   DateTime? dataFim;
   List<String> fotos = [];
 
+  String? erroDataInicio;
+  String? erroDataFim;
+
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _selecionarData(BuildContext context, bool isInicio) async {
@@ -46,11 +49,15 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
     }
   }
 
-  String? _validarDatas() {
-    if (dataInicio == null || dataFim == null) {
-      return "Preencha ambas as datas";
-    } else if (dataInicio!.isAfter(dataFim!)) {
-      return "A data de início deve ser anterior à data de fim";
+  String? _validarDataInicio() {
+    if (dataInicio == null) return "Selecione a data de início";
+    return null;
+  }
+
+  String? _validarDataFim() {
+    if (dataFim == null) return "Selecione a data de fim";
+    if (dataInicio != null && dataFim!.isBefore(dataInicio!)) {
+      return "A data de fim deve ser posterior à data de início";
     }
     return null;
   }
@@ -140,12 +147,14 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                         selectedDate: dataInicio,
                         onTap: () => _selecionarData(context, true),
                       ),
+                      _exibirErro(erroDataInicio),
                       const SizedBox(height: 16),
                       dateTileField(
                         label: 'Data fim',
                         selectedDate: dataFim,
                         onTap: () => _selecionarData(context, false),
                       ),
+                      _exibirErro(erroDataFim),
                       const SizedBox(height: 16),
                       _buildTextField(
                         'Descrição',
@@ -204,8 +213,14 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                               ),
                             ),
                             onPressed: () async {
+                              setState(() {
+                                erroDataInicio = _validarDataInicio();
+                                erroDataFim = _validarDataFim();
+                              });
+
                               if (_formKey.currentState!.validate() &&
-                                  _validarDatas() == null) {
+                                  erroDataInicio == null &&
+                                  erroDataFim == null) {
                                 _formKey.currentState!.save();
                                 final novaViagem = Viagem(
                                   local: local,
@@ -218,20 +233,7 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                                 await widget.controleViagens.adicionarViagem(
                                   novaViagem,
                                 );
-                                Navigator.pop(
-                                  context,
-                                  true,
-                                ); // <== retorna true para indicar que cadastrou
-                              } else {
-                                final erroDatas = _validarDatas();
-                                if (erroDatas != null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(erroDatas),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                }
+                                Navigator.pop(context, true);
                               }
                             },
                             child: const Text(
@@ -254,6 +256,19 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
         ),
       ),
     );
+  }
+
+  Widget _exibirErro(String? erro) {
+    if (erro != null) {
+      return Padding(
+        padding: const EdgeInsets.only(left: 12.0),
+        child: Text(
+          erro,
+          style: const TextStyle(color: Colors.red, fontSize: 12),
+        ),
+      );
+    }
+    return const SizedBox.shrink(); // Retorna um widget vazio se não houver erro
   }
 
   Widget _buildTextField(

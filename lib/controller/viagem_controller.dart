@@ -20,13 +20,11 @@ class ControleViagens {
   }
 
   Future<void> adicionarViagem(Viagem viagem) async {
-    await carregarDados();
     _viagens.add(viagem);
     await _salvarDados();
   }
 
   Future<void> removerViagem(int index) async {
-    await carregarDados();
     _viagens.removeAt(index);
     await _salvarDados();
   }
