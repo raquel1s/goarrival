@@ -201,7 +201,9 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
                                   color:
                                       _paginaAtual == index
                                           ? Colors.blueGrey
-                                          : Colors.blueGrey.withOpacity(0.4),
+                                          : Colors.blueGrey.withAlpha(
+                                            (0.4 * 255).toInt(),
+                                          ),
                                 ),
                               ),
                             ),
@@ -209,31 +211,37 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
                         ],
                       )
                     else
-                      Container(
-                        height: 200,
-                        color: Colors.grey[300],
-                        child: const Center(
-                          child: Icon(
-                            Icons.image,
-                            size: 50,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
+                      SizedBox.shrink(),
                     const SizedBox(height: 16),
-                    const Text(
-                      'Localização no mapa:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueGrey,
-                      ),
-                    ),
+                    _carregandoMapa
+                        ? const Text(
+                          'Localização no mapa:',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueGrey,
+                          ),
+                        )
+                        : SizedBox.shrink(),
                     const SizedBox(height: 8),
                     _carregandoMapa
                         ? const Center(child: CircularProgressIndicator())
                         : _coordenadas == null
-                        ? const Text('Não foi possível obter a localização.')
+                        ? Builder(
+                          builder: (context) {
+                            Future.delayed(Duration.zero, () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Não foi possível carregar o mapa.',
+                                  ),
+                                  duration: Duration(seconds: 3),
+                                ),
+                              );
+                            });
+                            return const SizedBox.shrink();
+                          },
+                        )
                         : SizedBox(
                           height: 200,
                           child: FlutterMap(

@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:goarrival/controller/viagem_controller.dart';
 import 'package:goarrival/screens/login.dart';
-import 'package:goarrival/screens/tela_viagens.dart';
 import 'firebase_options.dart';
 
 

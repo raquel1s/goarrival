@@ -268,7 +268,7 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
         ),
       );
     }
-    return const SizedBox.shrink(); // Retorna um widget vazio se não houver erro
+    return const SizedBox.shrink();
   }
 
   Widget _buildTextField(
