@@ -1,26 +1,43 @@
 {
   "project_info": {
-    "project_number": "480846989770",
-    "project_id": "goarrival",
-    "storage_bucket": "goarrival.firebasestorage.app"
+    "project_number": "240931923565",
+    "project_id": "goarrival-jgrs",
+    "storage_bucket": "goarrival-jgrs.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:480846989770:android:a80d4f0ce39f6159a56733",
+        "mobilesdk_app_id": "1:240931923565:android:91c6bf6872a91499fe4164",
         "android_client_info": {
           "package_name": "com.example.goarrival"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "240931923565-4pjo327ctsi4m0ac41shvfiuk7lijkjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyD457k4nLJnpLO9GDPwMFuTZfiaqGdBrbk"
+          "current_key": "AIzaSyAWQJzJjgSPngO73Hm-tR-daN9d6zyvoB4"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "240931923565-4pjo327ctsi4m0ac41shvfiuk7lijkjp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "240931923565-k7rks1g7r3t6b1sh12kihuqbchu0e26a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.goarrival"
+              }
+            }
+          ]
         }
       }
     }

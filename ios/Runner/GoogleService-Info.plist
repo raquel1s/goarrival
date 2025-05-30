@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>240931923565-k7rks1g7r3t6b1sh12kihuqbchu0e26a.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.240931923565-k7rks1g7r3t6b1sh12kihuqbchu0e26a</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAyLA_QxuUJTX5wR3H-L9VggaMlksbe5xk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>240931923565</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.goarrival</string>
+	<key>PROJECT_ID</key>
+	<string>goarrival-jgrs</string>
+	<key>STORAGE_BUCKET</key>
+	<string>goarrival-jgrs.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:240931923565:ios:e6fe25cf9309346dfe4164</string>
+</dict>
+</plist>

@@ -1,8 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
+import 'package:goarrival/screens/login.dart';
 import 'package:goarrival/screens/tela_viagens.dart';
+import 'firebase_options.dart';
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+    
   runApp(const GoArrival());
 }
 
@@ -34,7 +43,7 @@ class GoArrival extends StatelessWidget {
           ),
         ),
       ),
-      home: TelaViagens(controleViagens: ControleViagens(),),
+      home: Login(),
     );
   }
 }

@@ -1,5 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart'; // Para kIsWeb
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:goarrival/screens/tela_viagens.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:goarrival/controller/viagem_controller.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -10,23 +15,74 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Usuário já está logado
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TelaViagens(
+            controleViagens: ControleViagens(),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    try {
+      GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+      if (kIsWeb) {
+        await FirebaseAuth.instance.signInWithPopup(googleProvider);
+      } else {
+        await FirebaseAuth.instance.signInWithRedirect(googleProvider);
+      }
+
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TelaViagens(
+              controleViagens: ControleViagens(),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      print("Erro ao fazer login com Google: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Erro ao iniciar login.')),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(60),
-          margin: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.all(60),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 10)],
+            boxShadow: [const BoxShadow(color: Colors.black26, blurRadius: 10)],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Image(image: AssetImage('assets/logo.png')),
-              SizedBox(height: 30),
-              Text(
+              const SizedBox(height: 30),
+              const Text(
                 "Bem-vindo",
                 style: TextStyle(
                   fontWeight: FontWeight.w900,
@@ -34,7 +90,7 @@ class _LoginState extends State<Login> {
                   color: Color(0xFF12455C),
                 ),
               ),
-              Text(
+              const Text(
                 "Viajante",
                 style: TextStyle(
                   fontWeight: FontWeight.w900,
@@ -42,23 +98,21 @@ class _LoginState extends State<Login> {
                   color: Color(0xFF2C6B85),
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               ElevatedButton.icon(
-                onPressed: () {
-                  // Funçao login google/ vou por ainda
-                },
-                icon: FaIcon(
+                onPressed: signInWithGoogle,
+                icon: const FaIcon(
                   FontAwesomeIcons.google,
                   color: Colors.white,
                   size: 24,
                 ),
-                label: Text(
+                label: const Text(
                   'Entrar com Google',
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                  backgroundColor: Color(0xFF12455C),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  backgroundColor: const Color(0xFF12455C),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
