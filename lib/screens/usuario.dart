@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:goarrival/components/titulo_com_voltar.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Usuario extends StatefulWidget {
   const Usuario({super.key});
@@ -28,12 +29,13 @@ class _UsuarioState extends State<Usuario> {
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('GOARRIVAL'),
       ),
-
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -44,32 +46,32 @@ class _UsuarioState extends State<Usuario> {
               const SizedBox(height: 20),
 
               Center(
-                child: GestureDetector(
-                  onTap: _adicionarFoto,
-                  child: Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      Container(
-                        width: 135,
-                        height: 140,
-                        decoration: BoxDecoration(shape: BoxShape.circle),
+                child: Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    Container(
+                      width: 135,
+                      height: 140,
+                      decoration: BoxDecoration(shape: BoxShape.circle),
+                      child: ClipOval(
                         child:
-                            fotos.isEmpty
-                                ? const Icon(
+                            user?.photoURL != null
+                                ? Image.network(
+                                  user!.photoURL!,
+                                  fit: BoxFit.cover,
+                                  width: 150,
+                                  height: 150,
+                                )
+                                : const Icon(
                                   Icons.account_circle,
                                   size: 150,
                                   color: Colors.grey,
-                                )
-                                : ClipOval(
-                                  child: Image.memory(
-                                    base64Decode(fotos.first),
-                                    fit: BoxFit.cover,
-                                    width: 150,
-                                    height: 150,
-                                  ),
                                 ),
                       ),
-                      Container(
+                    ),
+                    GestureDetector(
+                      onTap: _adicionarFoto,
+                      child: Container(
                         decoration: const BoxDecoration(
                           color: Colors.blueGrey,
                           shape: BoxShape.circle,
@@ -79,24 +81,22 @@ class _UsuarioState extends State<Usuario> {
                           child: Icon(Icons.add, size: 24, color: Colors.black),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              Column(
-                children: [
-                  SizedBox(height: 5),
-                  Center(
-                    child: const Text(
-                      'NOME_USUARIO',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF12455C),
-                      ),
-                    ),
+
+              const SizedBox(height: 10),
+
+              Center(
+                child: Text(
+                  user?.displayName ?? 'NOME_USUARIO',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF12455C),
                   ),
-                ],
+                ),
               ),
             ],
           ),
