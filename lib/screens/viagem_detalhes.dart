@@ -27,19 +27,20 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
   LatLng? _coordenadas;
   bool _carregandoMapa = true;
 
-  void _carregarCoordenadas() async {
-    final coordenadas = await GeocodingService.getCoordinates(
-      widget.viagem.local,
-    );
-    print('Coordenadas retornadas: $coordenadas');
-    if (mounted) {
+  void _carregarCoordenadas() {
+    if (widget.viagem.latitude != null && widget.viagem.longitude != null) {
       setState(() {
-        _coordenadas = coordenadas;
+        _coordenadas = LatLng(
+          widget.viagem.latitude!,
+          widget.viagem.longitude!,
+        );
         _carregandoMapa = false;
       });
-      if (_coordenadas != null) {
-        _mapController.move(_coordenadas!, 13.0);
-      }
+    } else {
+      setState(() {
+        _coordenadas = null;
+        _carregandoMapa = false;
+      });
     }
   }
 

@@ -46,15 +46,18 @@ class _UsuarioState extends State<Usuario> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('GOARRIVAL'),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            TituloComVoltar(titulo: 'PERFIL'),
+            SizedBox(height: 50,),
+            Text("PERFIL",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF12455C),
+              ),
+            ),
             const SizedBox(height: 20),
             Center(
               child: Container(

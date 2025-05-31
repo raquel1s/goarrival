@@ -4,6 +4,8 @@ class Viagem {
   final String dataInicio;
   final String dataFim;
   final List<String> fotos;
+  double? latitude;
+  double? longitude;
 
   Viagem({
     required this.local,
@@ -11,6 +13,8 @@ class Viagem {
     required this.dataInicio,
     required this.dataFim,
     required this.fotos,
+    this.latitude,
+    this.longitude,
   });
 
   Map<String, dynamic> toJson() {
@@ -20,6 +24,8 @@ class Viagem {
       'dataInicio': dataInicio,
       'dataFim': dataFim,
       'fotos': fotos,
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 
@@ -30,6 +36,8 @@ class Viagem {
       dataInicio: json['dataInicio'],
       dataFim: json['dataFim'],
       fotos: List<String>.from(json['fotos'] ?? []),
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
     );
   }
 }

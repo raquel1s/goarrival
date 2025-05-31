@@ -11,17 +11,20 @@ class ControleViagens {
   Future<void> carregarDados() async {
     final prefs = await SharedPreferences.getInstance();
     final String? dadosSalvos = prefs.getString(_keyViagens);
-
+    print('Dados carregados do SharedPreferences: $dadosSalvos');
     if (dadosSalvos != null) {
       final List<dynamic> jsonList = jsonDecode(dadosSalvos);
       _viagens.clear();
       _viagens.addAll(jsonList.map((json) => Viagem.fromJson(json)).toList());
+      print('Viagens carregadas: ${_viagens.length}');
     }
   }
 
   Future<void> adicionarViagem(Viagem viagem) async {
     _viagens.add(viagem);
+    print('Viagem adicionada: ${viagem.local}');
     await _salvarDados();
+    print('Dados salvos no SharedPreferences');
   }
 
   Future<void> removerViagem(int index) async {
@@ -31,7 +34,11 @@ class ControleViagens {
 
   Future<void> _salvarDados() async {
     final prefs = await SharedPreferences.getInstance();
-    final String jsonList = jsonEncode(_viagens.map((v) => v.toJson()).toList());
+    final String jsonList = jsonEncode(
+      _viagens.map((v) => v.toJson()).toList(),
+    );
+    print('JSON a ser salvo: $jsonList');
     await prefs.setString(_keyViagens, jsonList);
+    print('SharedPreferences atualizado com sucesso');
   }
 }

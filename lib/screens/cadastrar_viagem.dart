@@ -5,6 +5,7 @@ import 'package:goarrival/controller/viagem_controller.dart';
 import 'package:goarrival/models/viagem.dart';
 import 'package:goarrival/screens/tela_viagens.dart';
 import 'package:goarrival/screens/usuario.dart';
+import 'package:goarrival/services/geocoding_service.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CadastrarViagem extends StatefulWidget {
@@ -79,20 +80,6 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('GOARRIVAL'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Usuario()),
-                );
-              },
-              icon: const Icon(Icons.account_circle),
-            ),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -222,12 +209,15 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                                   erroDataInicio == null &&
                                   erroDataFim == null) {
                                 _formKey.currentState!.save();
+                                final coordenadas = await GeocodingService.getCoordinates(local);
                                 final novaViagem = Viagem(
                                   local: local,
                                   descricao: descricao,
                                   dataInicio: dataInicio.toString(),
                                   dataFim: dataFim.toString(),
                                   fotos: fotos,
+                                  latitude: coordenadas?.latitude,
+                                  longitude: coordenadas?.longitude,
                                 );
 
                                 await widget.controleViagens.adicionarViagem(
