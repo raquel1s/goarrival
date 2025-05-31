@@ -37,8 +37,7 @@ class _TelaViagensState extends State<TelaViagens> {
       DateTime dataB = DateTime.parse(b.dataFim);
       return dataB.compareTo(dataA);
     });
-
-    // Lista de páginas que o menu inferior pode exibir
+    
     final List<Widget> paginas = [
       _buildTelaViagens(viagens),
       MapaViagens(),

@@ -70,20 +70,6 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('GOARRIVAL'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Usuario()),
-                );
-              },
-              icon: const Icon(Icons.account_circle),
-            ),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
