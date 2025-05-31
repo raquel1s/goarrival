@@ -108,7 +108,7 @@ class _LoginState extends State<Login> {
                 ),
                 label: const Text(
                   'Entrar com Google',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),

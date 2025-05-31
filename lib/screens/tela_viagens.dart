@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
 import 'package:goarrival/screens/cadastrar_viagem.dart';
+import 'package:goarrival/screens/mapa_viagens.dart';
 import 'package:goarrival/screens/usuario.dart';
 import 'package:goarrival/screens/viagem_detalhes.dart';
 
@@ -46,7 +47,7 @@ class _TelaViagensState extends State<TelaViagens> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Usuario()),
+                  MaterialPageRoute(builder: (context) => MapaViagens()),
                 );
               },
               icon: const Icon(Icons.account_circle),
