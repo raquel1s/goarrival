@@ -5,6 +5,7 @@ class Viagem {
   final String dataInicio;
   final String dataFim;
   final List<String> fotos;
+  final String usuarioEmail;
   double? latitude;
   double? longitude;
 
@@ -15,6 +16,7 @@ class Viagem {
     required this.dataInicio,
     required this.dataFim,
     required this.fotos,
+    required this.usuarioEmail,
     this.latitude,
     this.longitude,
   });
@@ -26,6 +28,7 @@ class Viagem {
       'dataInicio': dataInicio,
       'dataFim': dataFim,
       'fotos': fotos,
+      'usuarioEmail': usuarioEmail,
       'latitude': latitude,
       'longitude': longitude,
     };
@@ -39,6 +42,7 @@ class Viagem {
       dataInicio: json['dataInicio'],
       dataFim: json['dataFim'],
       fotos: List<String>.from(json['fotos'] ?? []),
+      usuarioEmail: json['usuarioEmail'],
       latitude: (json['latitude'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
     );

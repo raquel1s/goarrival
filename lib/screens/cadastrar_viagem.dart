@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:goarrival/components/Box.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
@@ -20,6 +21,7 @@ class CadastrarViagem extends StatefulWidget {
 
 class _CadastrarViagemState extends State<CadastrarViagem> {
   final _formKey = GlobalKey<FormState>();
+  final user = FirebaseAuth.instance.currentUser;
 
   String local = '';
   String descricao = '';
@@ -217,6 +219,7 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                                   dataInicio: dataInicio.toString(),
                                   dataFim: dataFim.toString(),
                                   fotos: fotos,
+                                  usuarioEmail: user?.email ?? '',
                                   latitude: coordenadas?.latitude,
                                   longitude: coordenadas?.longitude,
                                 );

@@ -6,7 +6,7 @@ import 'package:goarrival/controller/viagem_controller.dart';
 import 'package:goarrival/screens/cadastrar_viagem.dart';
 import 'package:goarrival/screens/viagem_detalhes.dart';
 import 'package:goarrival/screens/mapa_viagens.dart';
-import 'package:goarrival/screens/usuario.dart';
+import 'package:goarrival/screens/tela_usuario.dart';
 
 class TelaViagens extends StatefulWidget {
   final ControleViagens controleViagens;
