@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:goarrival/components/Box.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
 import 'package:goarrival/models/viagem.dart';
 import 'package:goarrival/screens/tela_viagens.dart';
-import 'package:goarrival/screens/usuario.dart';
 import 'package:goarrival/services/geocoding_service.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -19,6 +19,7 @@ class CadastrarViagem extends StatefulWidget {
 
 class _CadastrarViagemState extends State<CadastrarViagem> {
   final _formKey = GlobalKey<FormState>();
+  final user = FirebaseAuth.instance.currentUser;
 
   String local = '';
   String descricao = '';
@@ -216,6 +217,7 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                                   dataInicio: dataInicio.toString(),
                                   dataFim: dataFim.toString(),
                                   fotos: fotos,
+                                  usuarioEmail: user?.email ?? '',
                                   latitude: coordenadas?.latitude,
                                   longitude: coordenadas?.longitude,
                                 );

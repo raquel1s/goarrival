@@ -1,8 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:goarrival/screens/home_screen.dart';
 import 'package:goarrival/screens/login.dart';
-import 'package:goarrival/screens/usuario.dart';
+import 'package:goarrival/screens/tela_usuario.dart';
 import 'firebase_options.dart';
 
 
@@ -47,7 +46,7 @@ class GoArrival extends StatelessWidget {
       routes: {
         '/login' : (context) => const Login(),
         '/usuario': (context) => const Usuario(),
-        '/home': (context) => const HomeScreen()
+        '/home': (context) => const Login()
       },
     );
   }

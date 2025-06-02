@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart'; // Para kIsWeb
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:goarrival/screens/tela_viagens.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
 
 class Login extends StatefulWidget {
@@ -28,9 +27,7 @@ class _LoginState extends State<Login> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => TelaViagens(
-            controleViagens: ControleViagens(),
-          ),
+          builder: (context) => TelaViagens(controleViagens: ControleViagens()),
         ),
       );
     }
@@ -51,17 +48,16 @@ class _LoginState extends State<Login> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => TelaViagens(
-              controleViagens: ControleViagens(),
-            ),
+            builder:
+                (context) => TelaViagens(controleViagens: ControleViagens()),
           ),
         );
       }
     } catch (e) {
       print("Erro ao fazer login com Google: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Erro ao iniciar login.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Erro ao iniciar login.')));
     }
   }
 
@@ -111,7 +107,10 @@ class _LoginState extends State<Login> {
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 15,
+                  ),
                   backgroundColor: const Color(0xFF12455C),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),

@@ -7,7 +7,7 @@ import 'package:goarrival/components/Box.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
 import 'package:goarrival/models/viagem.dart';
 import 'package:goarrival/screens/tela_viagens.dart';
-import 'package:goarrival/screens/usuario.dart';
+import 'package:goarrival/screens/tela_usuario.dart';
 import 'package:goarrival/services/geocoding_service.dart';
 import 'package:latlong2/latlong.dart';
 
