@@ -1,4 +1,5 @@
 class Viagem {
+  String? id;
   final String local;
   final String descricao;
   final String dataInicio;
@@ -8,6 +9,7 @@ class Viagem {
   double? longitude;
 
   Viagem({
+    this.id,
     required this.local,
     required this.descricao,
     required this.dataInicio,
@@ -29,8 +31,9 @@ class Viagem {
     };
   }
 
-  factory Viagem.fromJson(Map<String, dynamic> json) {
+  factory Viagem.fromJson(Map<String, dynamic> json, String id) {
     return Viagem(
+      id: id,
       local: json['local'],
       descricao: json['descricao'],
       dataInicio: json['dataInicio'],

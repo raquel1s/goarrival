@@ -28,7 +28,7 @@ class _MapaViagensState extends State<MapaViagens> {
       _carregando = true;
     });
 
-    await _controleViagens.carregarDados();
+    await _controleViagens.carregarDadosComId();
 
     List<Marker> novosMarcadores = [];
 

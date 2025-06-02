@@ -1,44 +1,62 @@
-import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:goarrival/models/viagem.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ControleViagens {
-  static const String _keyViagens = 'lista_viagens';
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final List<Viagem> _viagens = [];
 
   List<Viagem> get viagens => _viagens;
 
-  Future<void> carregarDados() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? dadosSalvos = prefs.getString(_keyViagens);
-    print('Dados carregados do SharedPreferences: $dadosSalvos');
-    if (dadosSalvos != null) {
-      final List<dynamic> jsonList = jsonDecode(dadosSalvos);
-      _viagens.clear();
-      _viagens.addAll(jsonList.map((json) => Viagem.fromJson(json)).toList());
-      print('Viagens carregadas: ${_viagens.length}');
+  Future<void> carregarDadosComId() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) throw Exception('Usuário não autenticado');
+
+    final snapshot = await _firestore
+        .collection('usuarios')
+        .doc(uid)
+        .collection('viagens')
+        .get();
+
+    _viagens.clear();
+
+    for (var doc in snapshot.docs) {
+      _viagens.add(Viagem.fromJson(doc.data(), doc.id));
     }
   }
 
   Future<void> adicionarViagem(Viagem viagem) async {
-    _viagens.add(viagem);
-    print('Viagem adicionada: ${viagem.local}');
-    await _salvarDados();
-    print('Dados salvos no SharedPreferences');
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) throw Exception('Usuário não autenticado');
+
+    final docRef = await _firestore
+        .collection('usuarios')
+        .doc(uid)
+        .collection('viagens')
+        .add(viagem.toJson());
+
+    viagem.id = docRef.id;
+
+    await carregarDadosComId();
   }
 
   Future<void> removerViagem(int index) async {
-    _viagens.removeAt(index);
-    await _salvarDados();
-  }
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) throw Exception('Usuário não autenticado');
 
-  Future<void> _salvarDados() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String jsonList = jsonEncode(
-      _viagens.map((v) => v.toJson()).toList(),
-    );
-    print('JSON a ser salvo: $jsonList');
-    await prefs.setString(_keyViagens, jsonList);
-    print('SharedPreferences atualizado com sucesso');
+    if (index < 0 || index >= _viagens.length) return;
+
+    final viagem = _viagens[index];
+
+    if (viagem.id == null) return;
+
+    await _firestore
+        .collection('usuarios')
+        .doc(uid)
+        .collection('viagens')
+        .doc(viagem.id)
+        .delete();
+
+    await carregarDadosComId();
   }
 }

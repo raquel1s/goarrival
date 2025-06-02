@@ -4,7 +4,6 @@ import 'package:goarrival/components/Box.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
 import 'package:goarrival/models/viagem.dart';
 import 'package:goarrival/screens/tela_viagens.dart';
-import 'package:goarrival/screens/usuario.dart';
 import 'package:goarrival/services/geocoding_service.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -15,6 +14,8 @@ class CadastrarViagem extends StatefulWidget {
 
   @override
   State<CadastrarViagem> createState() => _CadastrarViagemState();
+
+  
 }
 
 class _CadastrarViagemState extends State<CadastrarViagem> {
@@ -220,9 +221,7 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                                   longitude: coordenadas?.longitude,
                                 );
 
-                                await widget.controleViagens.adicionarViagem(
-                                  novaViagem,
-                                );
+                              await widget.controleViagens.adicionarViagem(novaViagem);
                                 Navigator.pop(context, true);
                               }
                             },

@@ -23,7 +23,7 @@ class _TelaViagensState extends State<TelaViagens> {
   @override
   void initState() {
     super.initState();
-    widget.controleViagens.carregarDados().then((_) {
+    widget.controleViagens.carregarDadosComId().then((_) {
       setState(() {});
     });
   }
@@ -37,11 +37,11 @@ class _TelaViagensState extends State<TelaViagens> {
       DateTime dataB = DateTime.parse(b.dataFim);
       return dataB.compareTo(dataA);
     });
-    
+
     final List<Widget> paginas = [
       _buildTelaViagens(viagens),
-      MapaViagens(),
-      Usuario(),
+      const MapaViagens(),
+      const Usuario(),
     ];
 
     return Scaffold(
@@ -105,7 +105,7 @@ class _TelaViagensState extends State<TelaViagens> {
               );
 
               if (result == true) {
-                await widget.controleViagens.carregarDados();
+                await widget.controleViagens.carregarDadosComId();
                 setState(() {});
               }
             },
