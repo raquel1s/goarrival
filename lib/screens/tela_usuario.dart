@@ -55,7 +55,7 @@ class _UsuarioState extends State<Usuario> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF12455C),
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
             const SizedBox(height: 20),
@@ -80,19 +80,19 @@ class _UsuarioState extends State<Usuario> {
             const SizedBox(height: 10),
             Text(
               user.displayName ?? 'Nome do usuário',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF12455C),
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
             const SizedBox(height: 30),
             ElevatedButton.icon(
               onPressed: _logout,
-              icon: const Icon(Icons.logout, color: Colors.white,),
-              label: const Text('Logout', style: TextStyle(color: Colors.white)),
+              icon: Icon(Icons.logout, color: Theme.of(context).colorScheme.onPrimary,),
+              label: Text('Logout', style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF12455C),
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),

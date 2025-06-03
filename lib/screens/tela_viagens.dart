@@ -3,10 +3,12 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
+import 'package:goarrival/provider/theme_provider.dart';
 import 'package:goarrival/screens/cadastrar_viagem.dart';
 import 'package:goarrival/screens/viagem_detalhes.dart';
 import 'package:goarrival/screens/mapa_viagens.dart';
 import 'package:goarrival/screens/tela_usuario.dart';
+import 'package:provider/provider.dart';
 
 class TelaViagens extends StatefulWidget {
   final ControleViagens controleViagens;
@@ -48,6 +50,21 @@ class _TelaViagensState extends State<TelaViagens> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('GOARRIVAL'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: IconButton(
+              icon: Icon(
+                context.watch<ThemeProvider>().themeMode == ThemeMode.dark
+                    ? Icons.wb_sunny
+                    : Icons.nightlight_round
+              ),
+              onPressed: () {
+                context.read<ThemeProvider>().toggleTheme();
+              },
+            ),
+          ),
+        ],
       ),
       body: paginas[_paginaAtual],
       bottomNavigationBar: BottomNavigationBar(
@@ -57,20 +74,14 @@ class _TelaViagensState extends State<TelaViagens> {
             _paginaAtual = index;
           });
         },
-        selectedItemColor: const Color(0xFF12455C),
+        selectedItemColor: Theme.of(context).colorScheme.primary,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.travel_explore),
             label: 'Viagens',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Mapa',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Usuário',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Mapa'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Usuário'),
         ],
       ),
     );
@@ -82,13 +93,13 @@ class _TelaViagensState extends State<TelaViagens> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(30.0),
             child: Center(
               child: Text(
                 "Guarde suas melhores memórias no GOARRIVAL",
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Color(0xFF12455C), fontSize: 20),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20),
               ),
             ),
           ),
@@ -98,9 +109,10 @@ class _TelaViagensState extends State<TelaViagens> {
               final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CadastrarViagem(
-                    controleViagens: widget.controleViagens,
-                  ),
+                  builder:
+                      (context) => CadastrarViagem(
+                        controleViagens: widget.controleViagens,
+                      ),
                 ),
               );
 
@@ -110,11 +122,11 @@ class _TelaViagensState extends State<TelaViagens> {
               }
             },
             child: Row(
-              children: const [
+              children: [
                 Text(
                   "CADASTRAR VIAGEM",
                   style: TextStyle(
-                    color: Color(0xFF12455C),
+                    color: Theme.of(context).colorScheme.primary,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -123,7 +135,7 @@ class _TelaViagensState extends State<TelaViagens> {
                   padding: EdgeInsets.only(left: 10),
                   child: Icon(
                     Icons.add_circle_outline,
-                    color: Color(0xFF12455C),
+                    color: Theme.of(context).colorScheme.primary,
                     size: 30,
                   ),
                 ),
@@ -131,12 +143,12 @@ class _TelaViagensState extends State<TelaViagens> {
             ),
           ),
           const SizedBox(height: 45),
-          const Text(
+          Text(
             'ÚLTIMAS VIAGENS',
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF12455C),
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           const SizedBox(height: 10),
@@ -155,35 +167,36 @@ class _TelaViagensState extends State<TelaViagens> {
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   elevation: 4,
                   child: ListTile(
-                    leading: imagem != null
-                        ? Image.memory(
-                            imagem,
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
-                          )
-                        : Container(
-                            width: 50,
-                            height: 50,
-                            color: Colors.grey[300],
-                            child: const Icon(
-                              Icons.image,
-                              color: Colors.grey,
+                    leading:
+                        imagem != null
+                            ? Image.memory(
+                              imagem,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            )
+                            : Container(
+                              width: 50,
+                              height: 50,
+                              color: Colors.grey[300],
+                              child: const Icon(
+                                Icons.image,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
                     title: Text(
                       viagem.local,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF12455C),
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     subtitle: Text(
                       '${_formatarData(viagem.dataInicio)} - ${_formatarData(viagem.dataFim)}',
-                      style: const TextStyle(color: Color(0xFF12455C)),
+                      style: TextStyle(color: Theme.of(context).colorScheme.primary),
                     ),
                     trailing: IconButton(
-                      icon: const Icon(Icons.delete, color: Color(0xFF12455C)),
+                      icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.primary),
                       onPressed: () async {
                         await widget.controleViagens.removerViagem(index);
                         setState(() {});
