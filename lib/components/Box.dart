@@ -17,7 +17,7 @@ class Box extends StatelessWidget {
         width: boxWidth,
         padding: const EdgeInsets.all(30),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onPrimary,
+          color: Theme.of(context).colorScheme.surface,
           boxShadow: [
             BoxShadow(color: Colors.black26, blurRadius: 10),
           ],

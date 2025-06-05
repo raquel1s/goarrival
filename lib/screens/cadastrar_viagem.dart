@@ -240,10 +240,6 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                             },
                             child: Text(
                               'Cadastrar',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
                             ),
                           ),
                         ),

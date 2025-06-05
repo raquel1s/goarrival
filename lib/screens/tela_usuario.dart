@@ -89,15 +89,8 @@ class _UsuarioState extends State<Usuario> {
             const SizedBox(height: 30),
             ElevatedButton.icon(
               onPressed: _logout,
-              icon: Icon(Icons.logout, color: Theme.of(context).colorScheme.onPrimary,),
-              label: Text('Logout', style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
+              icon: Icon(Icons.logout),
+              label: Text('Logout'),
             ),
           ],
         ),
