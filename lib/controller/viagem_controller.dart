@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:goarrival/models/viagem.dart';
+import 'package:flutter/material.dart';
+import '../models/viagem.dart';
 
-class ControleViagens {
+class ControleViagens extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final List<Viagem> _viagens = [];
 
@@ -18,11 +19,11 @@ class ControleViagens {
         .collection('viagens')
         .get();
 
-    _viagens.clear();
+    _viagens
+      ..clear()
+      ..addAll(snapshot.docs.map((doc) => Viagem.fromJson(doc.data(), doc.id)));
 
-    for (var doc in snapshot.docs) {
-      _viagens.add(Viagem.fromJson(doc.data(), doc.id));
-    }
+    notifyListeners();
   }
 
   Future<void> adicionarViagem(Viagem viagem) async {
@@ -47,7 +48,6 @@ class ControleViagens {
     if (index < 0 || index >= _viagens.length) return;
 
     final viagem = _viagens[index];
-
     if (viagem.id == null) return;
 
     await _firestore

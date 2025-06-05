@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:goarrival/controller/viagem_controller.dart';
 import 'package:goarrival/provider/theme_provider.dart';
 import 'package:goarrival/screens/login.dart';
 import 'package:goarrival/screens/tela_usuario.dart';
@@ -11,11 +12,15 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeProvider(), // Registra o ThemeProvider
+        MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => ControleViagens()), // <-- Novo provider
+      ],
       child: const GoArrival(),
     ),
   );
+
 }
 
 class GoArrival extends StatelessWidget {
@@ -61,14 +66,17 @@ class GoArrival extends StatelessWidget {
         brightness: Brightness.dark,
         primaryColor: Colors.white,
         scaffoldBackgroundColor: const Color(0x6D6D6D6D),
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.black,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0x00000000),
           foregroundColor: Colors.white,
           elevation: 0,
         ),
         colorScheme: ColorScheme.fromSwatch(
           brightness: Brightness.dark,
-        ).copyWith(primary: Colors.white, secondary: Colors.white),
+        ).copyWith(
+          primary: Colors.white,
+          secondary: Colors.white,
+        ),
         textTheme: const TextTheme(
           bodyMedium: TextStyle(color: Colors.white70),
           titleLarge: TextStyle(
@@ -84,44 +92,6 @@ class GoArrival extends StatelessWidget {
             borderSide: BorderSide.none,
           ),
           errorStyle: const TextStyle(color: Colors.red, fontSize: 12),
-        ),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: Colors.black,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white70,
-          showUnselectedLabels: true,
-          type: BottomNavigationBarType.fixed,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF6D6D6D),
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-          ),
-        ),
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: const Color(0xFF6D6D6D), 
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-          ),
-        ),
-        outlinedButtonTheme: OutlinedButtonThemeData(
-          style: OutlinedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: const Color(0xFF6D6D6D), 
-            side: const BorderSide(color: Colors.white),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-          ),
         ),
       ),
       themeMode: themeProvider.themeMode,

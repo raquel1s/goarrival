@@ -24,23 +24,19 @@ class _LoginState extends State<Login> {
 
   Future<void> _checkLoginStatus() async {
     try {
-      // Tenta recuperar resultado de redirect (se houver)
       final redirectResult = await FirebaseAuth.instance.getRedirectResult();
 
-      // Se usuário logou pelo redirect agora
       if (redirectResult.user != null) {
         _navigateToHome();
         return;
       }
 
-      // Se já está logado
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         _navigateToHome();
         return;
       }
 
-      // Se não está logado, tira o loading
       setState(() => _loading = false);
     } catch (e) {
       print("Erro ao recuperar login: $e");
@@ -58,7 +54,6 @@ class _LoginState extends State<Login> {
         _navigateToHome();
       } else {
         await FirebaseAuth.instance.signInWithRedirect(googleProvider);
-        // Importante: não navega aqui. O redirect vai retornar depois.
       }
     } catch (e) {
       print("Erro ao fazer login com Google: $e");
