@@ -57,8 +57,37 @@ class GoArrival extends StatelessWidget {
           errorStyle: TextStyle(color: Colors.red, fontSize: 12),
         ),
       ),
-      darkTheme: ThemeData.dark()..copyWith(
-        
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.white,
+        scaffoldBackgroundColor: const Color(0x6D6D6D6D),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0x00000000),
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+        colorScheme: ColorScheme.fromSwatch(
+          brightness: Brightness.dark,
+        ).copyWith(
+          primary: Colors.white,
+          secondary: Colors.white,
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Colors.white70),
+          titleLarge: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.grey[800],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderSide: BorderSide.none,
+          ),
+          errorStyle: const TextStyle(color: Colors.red, fontSize: 12),
+        ),
       ),
       themeMode: themeProvider.themeMode,
       initialRoute: '/home',
