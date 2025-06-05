@@ -31,16 +31,21 @@ Aplicativo em flutter voltado para viajantes registrarem suas experiências com 
 - Flutter: Framework do Google para criar apps nativos multiplataforma (iOS, Android, web) com uma única base de código, usando a linguagem Dart.
 - Dart: Linguagem de programação criada pelo Google, usada principalmente para desenvolver apps com Flutter. É fácil de aprender e otimizada para UI.
 - Figma: Ferramenta online de design colaborativo para criar interfaces, protótipos e wireframes de forma rápida e em equipe.
+- Nominatim: Ferramenta de busca geográfica que converte endereços e nomes de locais em coordenadas geográficas. É baseado nos dados do OpenStreetMap.
+- Flutter_map: Biblioteca open-source para Flutter que permite adicionar mapas interativos e personalizáveis aos seus aplicativos.
+- Firebase: Plataforma de desenvolvimento de aplicativos da Google que oferece uma variedade de serviços para simplificar o desenvolvimento, lançamento e gerenciamento de aplicativos móveis e web.
+- Cloud Firestore: Banco de dados de documentos NoSQL flexível e escalável, parte do Firebase, que permite armazenar, sincronizar e consultar dados de forma eficiente para aplicativos móveis e web, com suporte a sincronização em tempo real e offline.
+- Firebase Authentication: Serviço da Google Firebase que facilita a autenticação de usuários em aplicativos. 
 
 --- 
 
 ### ✨ Funcionalidades
 
-- Uso da API flutter_map para marcar localizações das viagens  
+- Uso da biblioteca flutter_map para mostrar as localizações das viagens  
 - Upload e exibição de fotos associadas a cada viagem  
-- Tela com mapa para visualização dos pontos visitados  
-- Segurança com armazenamento seguro local usando firebase
-- Login diretamente com a conta do google
+- Tela com mapa para visualização de todos os pontos visitados  
+- Segurança com armazenamento seguro local usando Cloud Firestore
+- Login diretamente com a conta do google usando Firebase Authentication
 - Navegação fluida entre múltiplas telas
 
 ---
