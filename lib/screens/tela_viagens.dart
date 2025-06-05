@@ -11,9 +11,7 @@ import 'package:goarrival/screens/tela_usuario.dart';
 import 'package:provider/provider.dart';
 
 class TelaViagens extends StatefulWidget {
-  final ControleViagens controleViagens;
-
-  const TelaViagens({super.key, required this.controleViagens});
+  const TelaViagens({super.key, required ControleViagens controleViagens});
 
   @override
   State<TelaViagens> createState() => _TelaViagensState();
@@ -21,19 +19,28 @@ class TelaViagens extends StatefulWidget {
 
 class _TelaViagensState extends State<TelaViagens> {
   int _paginaAtual = 0;
+  bool _dadosCarregados = false;
 
   @override
-  void initState() {
-    super.initState();
-    widget.controleViagens.carregarDadosComId().then((_) {
-      setState(() {});
-    });
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_dadosCarregados) {
+      final controleViagens = Provider.of<ControleViagens>(context, listen: false);
+      controleViagens.carregarDadosComId().then((_) {
+        setState(() {
+          _dadosCarregados = true;
+        });
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final viagens = widget.controleViagens.viagens;
+    final controleViagens = Provider.of<ControleViagens>(context);
+    final viagens = controleViagens.viagens;
 
+    // Ordena as viagens por dataFim (mais recentes primeiro)
     viagens.sort((a, b) {
       DateTime dataA = DateTime.parse(a.dataFim);
       DateTime dataB = DateTime.parse(b.dataFim);
@@ -41,7 +48,7 @@ class _TelaViagensState extends State<TelaViagens> {
     });
 
     final List<Widget> paginas = [
-      _buildTelaViagens(viagens),
+      _buildTelaViagens(viagens, controleViagens),
       const MapaViagens(),
       const Usuario(),
     ];
@@ -57,7 +64,7 @@ class _TelaViagensState extends State<TelaViagens> {
               icon: Icon(
                 context.watch<ThemeProvider>().themeMode == ThemeMode.dark
                     ? Icons.wb_sunny
-                    : Icons.nightlight_round
+                    : Icons.nightlight_round,
               ),
               onPressed: () {
                 context.read<ThemeProvider>().toggleTheme();
@@ -87,19 +94,20 @@ class _TelaViagensState extends State<TelaViagens> {
     );
   }
 
-  Widget _buildTelaViagens(List viagens) {
+  Widget _buildTelaViagens(List viagens, ControleViagens controleViagens) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.all(30.0),
-            child: Center(
-              child: Text(
-                "Guarde suas melhores memórias no GOARRIVAL",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20),
+          const SizedBox(height: 30),
+          Center(
+            child: Text(
+              "Guarde suas melhores memórias no GOARRIVAL",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 20,
               ),
             ),
           ),
@@ -109,15 +117,14 @@ class _TelaViagensState extends State<TelaViagens> {
               final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder:
-                      (context) => CadastrarViagem(
-                        controleViagens: widget.controleViagens,
-                      ),
+                  builder: (context) => CadastrarViagem(
+                    controleViagens: controleViagens,
+                  ),
                 ),
               );
 
               if (result == true) {
-                await widget.controleViagens.carregarDadosComId();
+                await controleViagens.carregarDadosComId();
                 setState(() {});
               }
             },
@@ -132,7 +139,7 @@ class _TelaViagensState extends State<TelaViagens> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 10),
                   child: Icon(
                     Icons.add_circle_outline,
                     color: Theme.of(context).colorScheme.primary,
@@ -167,23 +174,22 @@ class _TelaViagensState extends State<TelaViagens> {
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   elevation: 4,
                   child: ListTile(
-                    leading:
-                        imagem != null
-                            ? Image.memory(
-                              imagem,
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.cover,
-                            )
-                            : Container(
-                              width: 50,
-                              height: 50,
-                              color: Colors.grey[300],
-                              child: const Icon(
-                                Icons.image,
-                                color: Colors.grey,
-                              ),
+                    leading: imagem != null
+                        ? Image.memory(
+                            imagem,
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          )
+                        : Container(
+                            width: 50,
+                            height: 50,
+                            color: Colors.grey[300],
+                            child: const Icon(
+                              Icons.image,
+                              color: Colors.grey,
                             ),
+                          ),
                     title: Text(
                       viagem.local,
                       style: TextStyle(
@@ -193,12 +199,17 @@ class _TelaViagensState extends State<TelaViagens> {
                     ),
                     subtitle: Text(
                       '${_formatarData(viagem.dataInicio)} - ${_formatarData(viagem.dataFim)}',
-                      style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
                     trailing: IconButton(
-                      icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.primary),
+                      icon: Icon(
+                        Icons.delete,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       onPressed: () async {
-                        await widget.controleViagens.removerViagem(index);
+                        await controleViagens.removerViagem(index);
                         setState(() {});
                       },
                     ),

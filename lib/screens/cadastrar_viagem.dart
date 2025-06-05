@@ -207,17 +207,6 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                         child: SizedBox(
                           width: 150,
                           child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.primary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 16,
-                              ),
-                            ),
                             onPressed: () async {
                               setState(() {
                                 erroDataInicio = _validarDataInicio();
@@ -251,10 +240,6 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                             },
                             child: Text(
                               'Cadastrar',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
                             ),
                           ),
                         ),
