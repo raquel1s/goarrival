@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:goarrival/components/Box.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
 import 'package:goarrival/models/viagem.dart';
+import 'package:goarrival/provider/theme_provider.dart';
 import 'package:goarrival/screens/tela_viagens.dart';
-import 'package:goarrival/screens/usuario.dart';
+import 'package:goarrival/services/geocoding_service.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class CadastrarViagem extends StatefulWidget {
   final ControleViagens controleViagens;
@@ -18,6 +21,7 @@ class CadastrarViagem extends StatefulWidget {
 
 class _CadastrarViagemState extends State<CadastrarViagem> {
   final _formKey = GlobalKey<FormState>();
+  final user = FirebaseAuth.instance.currentUser;
 
   String local = '';
   String descricao = '';
@@ -81,15 +85,16 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
         title: const Text('GOARRIVAL'),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: IconButton(
+              icon: Icon(
+                context.watch<ThemeProvider>().themeMode == ThemeMode.dark
+                    ? Icons.wb_sunny
+                    : Icons.nightlight_round
+              ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Usuario()),
-                );
+                context.read<ThemeProvider>().toggleTheme();
               },
-              icon: const Icon(Icons.account_circle),
             ),
           ),
         ],
@@ -114,18 +119,18 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                         ),
                       );
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.chevron_left,
-                      color: Color(0xFF12455C),
+                      color: Theme.of(context).colorScheme.primary,
                       size: 30,
                     ),
                   ),
-                  const Text(
+                  Text(
                     "CADASTRAR VIAGEM",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF12455C),
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ],
@@ -168,15 +173,15 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                           height: 150,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: Colors.grey[200],
+                            color: Theme.of(context).inputDecorationTheme.fillColor,
                           ),
                           child:
                               fotos.isEmpty
-                                  ? const Center(
+                                  ? Center(
                                     child: Icon(
                                       Icons.add,
                                       size: 50,
-                                      color: Colors.grey,
+                                      color: Theme.of(context).colorScheme.primary,
                                     ),
                                   )
                                   : GridView.builder(
@@ -202,16 +207,6 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                         child: SizedBox(
                           width: 150,
                           child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF12455C),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 16,
-                              ),
-                            ),
                             onPressed: () async {
                               setState(() {
                                 erroDataInicio = _validarDataInicio();
@@ -222,12 +217,19 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                                   erroDataInicio == null &&
                                   erroDataFim == null) {
                                 _formKey.currentState!.save();
+                                final coordenadas =
+                                    await GeocodingService.getCoordinates(
+                                      local,
+                                    );
                                 final novaViagem = Viagem(
                                   local: local,
                                   descricao: descricao,
                                   dataInicio: dataInicio.toString(),
                                   dataFim: dataFim.toString(),
                                   fotos: fotos,
+                                  usuarioEmail: user?.email ?? '',
+                                  latitude: coordenadas?.latitude,
+                                  longitude: coordenadas?.longitude,
                                 );
 
                                 await widget.controleViagens.adicionarViagem(
@@ -236,12 +238,8 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
                                 Navigator.pop(context, true);
                               }
                             },
-                            child: const Text(
+                            child: Text(
                               'Cadastrar',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
                             ),
                           ),
                         ),
@@ -264,7 +262,7 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
         padding: const EdgeInsets.only(left: 12.0),
         child: Text(
           erro,
-          style: const TextStyle(color: Colors.red, fontSize: 12),
+          style: Theme.of(context).inputDecorationTheme.errorStyle,
         ),
       );
     }
@@ -279,12 +277,6 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
     return TextFormField(
       decoration: InputDecoration(
         labelText: label,
-        filled: true,
-        fillColor: Colors.grey[200],
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide.none,
-        ),
       ),
       maxLines: maxLines,
       validator:
@@ -301,7 +293,7 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Theme.of(context).inputDecorationTheme.fillColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: ListTile(
@@ -311,10 +303,10 @@ class _CadastrarViagemState extends State<CadastrarViagem> {
               ? 'Selecione a data'
               : '${selectedDate.day.toString().padLeft(2, '0')}/${selectedDate.month.toString().padLeft(2, '0')}/${selectedDate.year}',
           style: TextStyle(
-            color: selectedDate == null ? Colors.grey : Colors.black,
+            color: Colors.grey,
           ),
         ),
-        trailing: const Icon(Icons.calendar_today, color: Colors.grey),
+        trailing: Icon(Icons.calendar_today, color: Theme.of(context).colorScheme.primary),
         onTap: onTap,
       ),
     );

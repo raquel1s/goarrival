@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart'; // Para kIsWeb
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:goarrival/screens/tela_viagens.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,6 +14,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool _loading = true;
+
   @override
   void initState() {
     super.initState();
@@ -21,41 +23,37 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> _checkLoginStatus() async {
-    final user = FirebaseAuth.instance.currentUser;
+    try {
+      final redirectResult = await FirebaseAuth.instance.getRedirectResult();
 
-    if (user != null) {
-      // Usuário já está logado
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TelaViagens(
-            controleViagens: ControleViagens(),
-          ),
-        ),
-      );
+      if (redirectResult.user != null) {
+        _navigateToHome();
+        return;
+      }
+
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        _navigateToHome();
+        return;
+      }
+
+      setState(() => _loading = false);
+    } catch (e) {
+      print("Erro ao recuperar login: $e");
+      setState(() => _loading = false);
     }
   }
 
   Future<void> signInWithGoogle() async {
     try {
       GoogleAuthProvider googleProvider = GoogleAuthProvider();
+      googleProvider.setCustomParameters({'prompt': 'select_account'});
 
       if (kIsWeb) {
         await FirebaseAuth.instance.signInWithPopup(googleProvider);
+        _navigateToHome();
       } else {
         await FirebaseAuth.instance.signInWithRedirect(googleProvider);
-      }
-
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TelaViagens(
-              controleViagens: ControleViagens(),
-            ),
-          ),
-        );
       }
     } catch (e) {
       print("Erro ao fazer login com Google: $e");
@@ -65,8 +63,24 @@ class _LoginState extends State<Login> {
     }
   }
 
+  void _navigateToHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            TelaViagens(controleViagens: ControleViagens()),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_loading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       body: Center(
         child: Container(
@@ -75,7 +89,9 @@ class _LoginState extends State<Login> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [const BoxShadow(color: Colors.black26, blurRadius: 10)],
+            boxShadow: [
+              const BoxShadow(color: Colors.black26, blurRadius: 10)
+            ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -108,10 +124,13 @@ class _LoginState extends State<Login> {
                 ),
                 label: const Text(
                   'Entrar com Google',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 15,
+                  ),
                   backgroundColor: const Color(0xFF12455C),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),

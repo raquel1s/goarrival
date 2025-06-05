@@ -6,10 +6,10 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:goarrival/components/Box.dart';
 import 'package:goarrival/controller/viagem_controller.dart';
 import 'package:goarrival/models/viagem.dart';
+import 'package:goarrival/provider/theme_provider.dart';
 import 'package:goarrival/screens/tela_viagens.dart';
-import 'package:goarrival/screens/usuario.dart';
-import 'package:goarrival/services/geocoding_service.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 
 class ViagemDetalhes extends StatefulWidget {
   final Viagem viagem;
@@ -27,19 +27,20 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
   LatLng? _coordenadas;
   bool _carregandoMapa = true;
 
-  void _carregarCoordenadas() async {
-    final coordenadas = await GeocodingService.getCoordinates(
-      widget.viagem.local,
-    );
-    print('Coordenadas retornadas: $coordenadas');
-    if (mounted) {
+  void _carregarCoordenadas() {
+    if (widget.viagem.latitude != null && widget.viagem.longitude != null) {
       setState(() {
-        _coordenadas = coordenadas;
+        _coordenadas = LatLng(
+          widget.viagem.latitude!,
+          widget.viagem.longitude!,
+        );
         _carregandoMapa = false;
       });
-      if (_coordenadas != null) {
-        _mapController.move(_coordenadas!, 13.0);
-      }
+    } else {
+      setState(() {
+        _coordenadas = null;
+        _carregandoMapa = false;
+      });
     }
   }
 
@@ -71,15 +72,16 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
         title: const Text('GOARRIVAL'),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: IconButton(
+              icon: Icon(
+                context.watch<ThemeProvider>().themeMode == ThemeMode.dark
+                    ? Icons.wb_sunny
+                    : Icons.nightlight_round
+              ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Usuario()),
-                );
+                context.read<ThemeProvider>().toggleTheme();
               },
-              icon: const Icon(Icons.account_circle),
             ),
           ),
         ],
@@ -104,18 +106,18 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
                         ),
                       );
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.chevron_left,
-                      color: Color(0xFF12455C),
+                      color: Theme.of(context).colorScheme.primary,
                       size: 30,
                     ),
                   ),
-                  const Text(
+                  Text(
                     "DETALHES VIAGEM",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF12455C),
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ],
@@ -127,26 +129,26 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
                   children: [
                     Text(
                       viagem.local,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blueGrey,
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                     ),
                     const SizedBox(height: 16),
                     Text(
                       '${_formatarData(viagem.dataInicio)} - ${_formatarData(viagem.dataFim)}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
-                        color: Colors.blueGrey,
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                     ),
                     const SizedBox(height: 16),
                     Text(
                       viagem.descricao,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
-                        color: Colors.blueGrey,
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -200,8 +202,8 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
                                   shape: BoxShape.circle,
                                   color:
                                       _paginaAtual == index
-                                          ? Colors.blueGrey
-                                          : Colors.blueGrey.withAlpha(
+                                          ? Theme.of(context).colorScheme.secondary
+                                          : Theme.of(context).colorScheme.secondary.withAlpha(
                                             (0.4 * 255).toInt(),
                                           ),
                                 ),
@@ -214,12 +216,12 @@ class _ViagemDetalhesState extends State<ViagemDetalhes> {
                       SizedBox.shrink(),
                     const SizedBox(height: 16),
                     _carregandoMapa
-                        ? const Text(
+                        ? Text(
                           'Localização no mapa:',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blueGrey,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                         )
                         : SizedBox.shrink(),

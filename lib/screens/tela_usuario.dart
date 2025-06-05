@@ -46,15 +46,18 @@ class _UsuarioState extends State<Usuario> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('GOARRIVAL'),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            TituloComVoltar(titulo: 'PERFIL'),
+            SizedBox(height: 50,),
+            Text("PERFIL",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
             const SizedBox(height: 20),
             Center(
               child: Container(
@@ -77,24 +80,17 @@ class _UsuarioState extends State<Usuario> {
             const SizedBox(height: 10),
             Text(
               user.displayName ?? 'Nome do usuário',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF12455C),
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
             const SizedBox(height: 30),
             ElevatedButton.icon(
               onPressed: _logout,
-              icon: const Icon(Icons.logout, color: Colors.white,),
-              label: const Text('Logout', style: TextStyle(color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF12455C),
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
+              icon: Icon(Icons.logout),
+              label: Text('Logout'),
             ),
           ],
         ),
