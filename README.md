@@ -5,7 +5,7 @@ Aplicativo em flutter voltado para viajantes registrarem suas experiências com 
 ---
 
 <p align="center">
-  <img src="assets/logo.png" alt="Demonstração do projeto" />
+  <img src="assets/goarrival.gif" alt="Demonstração do projeto" />
 </p>
 
 ## 📑 Sumário
