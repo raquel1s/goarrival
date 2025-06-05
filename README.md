@@ -3,7 +3,10 @@
 Aplicativo em flutter voltado para viajantes registrarem suas experiências com fotos, localização via GPS, descrições e datas personalizadas. Um diário pessoal para guardar memórias de viagens e locais visitados.
 
 ---
-![Demonstração do projeto](assets/logo.png)
+
+<p align="center">
+  <img src="assets/logo.png" alt="Demonstração do projeto" />
+</p>
 
 ## 📑 Sumário
 
