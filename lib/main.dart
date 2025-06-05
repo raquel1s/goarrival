@@ -59,10 +59,10 @@ class GoArrival extends StatelessWidget {
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: Colors.white,
-        scaffoldBackgroundColor: const Color(0x6D6D6D6D),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0x00000000),
+        primaryColor: const Color(0xFF12455C),
+        scaffoldBackgroundColor: const Color(0xFF1E1E1E), // Fundo escuro
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey[800],
           foregroundColor: Colors.white,
           elevation: 0,
         ),
@@ -75,15 +75,15 @@ class GoArrival extends StatelessWidget {
         textTheme: const TextTheme(
           bodyMedium: TextStyle(color: Colors.white70),
           titleLarge: TextStyle(
-            color: Colors.white,
+            color: Color(0xFF2C6B85), // Um azul secundário para destaque
             fontWeight: FontWeight.bold,
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: Colors.grey[800],
+          fillColor: Colors.grey[800], // Fundo dos campos de entrada
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide.none,
           ),
           errorStyle: const TextStyle(color: Colors.red, fontSize: 12),
